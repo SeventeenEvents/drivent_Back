@@ -3,6 +3,39 @@ import dayjs from "dayjs";
 const prisma = new PrismaClient();
 
 async function main() {
+  let ticketTypes = await prisma.ticketType.findMany();
+  if (ticketTypes.length === 0) {
+    // Se não existem, cria os dois tipos de ingressos
+    const presencialTicket = await prisma.ticketType.create({
+      data: {
+        name: "Presencial",
+        price: 250,
+        isRemote: false,
+        includesHotel: false,
+      },
+    });
+
+    const onlineTicket = await prisma.ticketType.create({
+      data: {
+        name: "Online",
+        price: 100,
+        isRemote: true,
+        includesHotel: false,
+      },
+    });
+
+    const presencialTicketWithHotel = await prisma.ticketType.create({
+      data: {
+        name: "Presencial com Hotel",
+        price: 600,
+        isRemote: false,
+        includesHotel: true,
+      },
+    });
+
+    console.log("Tipos de ingressos criados:", presencialTicket, onlineTicket, presencialTicketWithHotel);
+  }
+
   let event = await prisma.event.findFirst();
   if (!event) {
     event = await prisma.event.create({
@@ -16,7 +49,7 @@ async function main() {
     });
   }
 
-  console.log({ event });
+  console.log("Evento criado:", event);
 }
 
 main()
