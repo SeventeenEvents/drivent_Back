@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Starting...")
+  console.log("Starting...");
   let ticketTypes = await prisma.ticketType.findMany();
   if (ticketTypes.length === 2) {
     const presencialTicket = await prisma.ticketType.create({
@@ -86,6 +86,31 @@ async function main() {
   }
 
   console.log({ event });
+
+  let hotel = await prisma.hotel.findMany();
+  if (hotel.length === 0) {
+    await prisma.hotel.create({
+      data: {
+        name: 'River View',
+        image: 'https://thumbs.dreamstime.com/z/hotel-pobre-na-margem-do-rio-lama-em-prédio-é-sinal-imaginário-de-182841098.jpg?w=992',
+        updatedAt: dayjs().toDate(),
+      }
+    });
+    await prisma.hotel.create({
+      data: {
+        name: 'Top Hotel',
+        image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/242052129.jpg?k=e422a5e94fdf6bd58951e40388230cb1588ca93c872cf384a6ad4ea932723d79&o=&hp=1',
+        updatedAt: dayjs().toDate(),
+      }
+    });
+    await prisma.hotel.create({
+      data: {
+        name: 'Forest Hotel',
+        image: 'https://www.gov.br/turismo/pt-br/assuntos/noticias/hotel-de-floresta-o-local-ideal-para-quem-deseja-uma-pausa-em-meio-a-natureza/PousadaUakariCrditoMarioOliveiraMTur.png/@@images/ccce0f25-de0e-4d15-ad68-0cd940bf762e.png',
+        updatedAt: dayjs().toDate(),
+      }
+    });
+  }
 
 }
 
