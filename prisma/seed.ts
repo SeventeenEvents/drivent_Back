@@ -36,42 +36,6 @@ async function main() {
     console.log("Tipos de ingressos criados:", presencialTicket, onlineTicket, presencialTicketWithHotel);
   }
 
-  let ticket = await prisma.ticket.findMany();
-  if (ticket.length === 0) {
-    let type = await prisma.ticketType.findFirst({ where: { name: "Presencial com Hotel" } });
-    const mockType = { id: 1 };
-    if (type === null) return mockType;
-    let enrollment = await prisma.enrollment.findFirst();
-    const mockEnrollment = { id: 1 };
-    if (enrollment === null) return mockEnrollment;
-    const ticket = await prisma.ticket.create({
-      data: {
-        ticketTypeId: type.id,
-        enrollmentId: enrollment.id,
-        status: 'PAID',
-        updatedAt: dayjs().toDate(),
-      },
-    });
-    console.log(ticket);
-  }
-
-  let payment = await prisma.payment.findMany();
-  if (payment.length === 0) {
-    let ticket = await prisma.ticket.findFirst();
-    const mockTicket = { id: 1 };
-    if (ticket === null) return mockTicket;
-    const payment = await prisma.payment.create({
-      data: {
-        ticketId: ticket.id,
-        value: 600,
-        cardIssuer: 'VISA',
-        cardLastDigits: '3748',
-        updatedAt: dayjs().toDate(),
-      },
-    });
-    console.log(payment);
-  }
-
   let event = await prisma.event.findFirst();
   if (!event) {
     event = await prisma.event.create({
