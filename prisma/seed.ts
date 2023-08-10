@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Starting...");
   let ticketTypes = await prisma.ticketType.findMany();
-  if (ticketTypes.length === 2) {
+  if (ticketTypes.length === 0) {
     const presencialTicket = await prisma.ticketType.create({
       data: {
         name: "Presencial",
