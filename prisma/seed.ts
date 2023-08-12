@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Starting...");
   let ticketTypes = await prisma.ticketType.findMany();
-  if (ticketTypes.length === 2) {
+  if (ticketTypes.length === 0) {
     const presencialTicket = await prisma.ticketType.create({
       data: {
         name: "Presencial",
@@ -76,6 +76,43 @@ async function main() {
     });
   }
 
+  let rooms = await prisma.room.findMany();
+  if(rooms.length === 0) {
+    await prisma.room.createMany({
+      data: [
+        {
+          name: '101',
+          capacity: 3,
+          hotelId: 3,
+        },
+        {
+          name: '102',
+          capacity: 2,
+          hotelId: 3,
+        },
+        {
+          name: '103',
+          capacity: 3,
+          hotelId: 3,
+        },
+        {
+          name: '101',
+          capacity: 3,
+          hotelId: 4,
+        },
+        {
+          name: '102',
+          capacity: 2,
+          hotelId: 4,
+        },
+        {
+          name: '103',
+          capacity: 3,
+          hotelId: 4,
+        }
+      ]
+    });
+  }
 }
 
 main()
