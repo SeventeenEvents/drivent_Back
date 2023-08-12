@@ -11,14 +11,14 @@ datasource db {
 }
 
 model User {
-  id         Int          @id @default(autoincrement())
-  email      String       @unique @db.VarChar(255)
-  password   String       @db.VarChar(255)
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  Session    Session[]
-  Enrollment Enrollment[]
-  Booking    Booking[]
+  id               Int                @id @default(autoincrement())
+  email            String             @unique @db.VarChar(255)
+  password         String             @db.VarChar(255)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  Session          Session[]
+  Enrollment       Enrollment[]
+  Booking          Booking[]
   Reserve_Activity Reserve_Activity[]
 }
 
@@ -40,7 +40,6 @@ model Event {
   endsAt             DateTime
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
-  Activity  Activity[]
 }
 
 model Enrollment {
@@ -93,7 +92,6 @@ model Ticket {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
   Payment      Payment[]
-  Reserve_Activity Reserve_Activity[]
 }
 
 enum TicketStatus {
@@ -143,27 +141,25 @@ model Booking {
 }
 
 model Activity {
-  id        Int      @id @default(autoincrement())
-  Event     Event     @relation(fields: [eventId], references: [id])
-  eventId    Int
-  day DateTime
-  location String @db.VarChar(255)
-  name String @db.VarChar(255)
-  startAt DateTime
-  endAt DateTime
-  vacancies Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               Int                @id @default(autoincrement())
+  day              DateTime
+  location         String             @db.VarChar(255)
+  name             String             @db.VarChar(255)
+  startAt          DateTime
+  duration         Int
+  endAt            DateTime
+  vacancies        Int
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
   Reserve_Activity Reserve_Activity[]
 }
+
 model Reserve_Activity {
-  id        Int      @id @default(autoincrement())
-  User      User     @relation(fields: [userId], references: [id])
-  userId    Int
-  Ticket      Ticket     @relation(fields: [ticketId], references: [id])
-  ticketId    Int
-  Acticity      Activity     @relation(fields: [activityId], references: [id])
-  activityId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  Acticity   Activity @relation(fields: [activityId], references: [id])
+  activityId Int
+  User       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
