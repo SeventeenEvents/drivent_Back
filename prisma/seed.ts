@@ -1,8 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import dayjs from "dayjs";
+import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 async function main() {
+
   let ticketTypes = await prisma.ticketType.findMany();
   if (ticketTypes.length === 0) {
     // Se não existem, cria os dois tipos de ingressos
@@ -50,6 +52,52 @@ async function main() {
   }
 
   console.log("Evento criado:", event);
+
+  let users = await prisma.user.findMany();
+
+
+  if (users.length > 0) {
+    // Criação dos usuários e tickets
+
+    const user4 = await prisma.user.create({
+      data: {
+        email: "4@gmail.com",
+        password: await bcrypt.hash("password123", 10),
+        Enrollment: {
+          create: {
+            name: "User 4",
+            cpf: "12345678901",
+            birthday: dayjs("1995-01-01").toDate(),
+            phone: "123456789",
+            Address: {
+              create: {
+                cep: "21911430",
+                street: "Rua Magno Martins",
+                city: "Rio de Janeiro",
+                state: "RJ",
+                number: "456",
+                neighborhood: "Freguesia",
+              },
+            },
+            Ticket: {
+              create: {
+                TicketType: {
+                  connect: {
+                    id: 2,
+                  },
+                },
+                status: "RESERVED",
+              },
+            },
+          },
+        },
+      },
+    });
+
+
+
+    console.log("Usuários criados:", user4);
+  }
 }
 
 main()

@@ -44,3 +44,13 @@ export async function createTicket(req: AuthenticatedRequest, res: Response) {
   }
 }
 
+export async function getUserTicketType (req: AuthenticatedRequest, res: Response) {
+  const { enrollmentId } = req.params;
+  try {
+    const ticketTypes = await ticketService.getUserTicketType(enrollmentId);
+
+    return res.status(httpStatus.OK).send(ticketTypes);
+  } catch (error) {
+    return res.sendStatus(httpStatus.NOT_FOUND);
+  }
+}
