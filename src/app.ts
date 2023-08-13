@@ -21,6 +21,7 @@ import {
 } from "@/routers";
 
 const app = express();
+
 app
   .use(cors())
   .use(express.json())
