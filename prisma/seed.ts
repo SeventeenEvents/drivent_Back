@@ -76,6 +76,41 @@ async function main() {
     });
   }
 
+  let rooms = await prisma.room.findMany();
+  if(rooms.length === 0) {
+    await prisma.room.createMany({
+      data: [
+        {
+          name: '101',
+          capacity: 3,
+          hotelId: 3,
+        },
+        {
+          name: '102',
+          capacity: 2,
+          hotelId: 3,
+        },
+        {
+          name: '103',
+          capacity: 3,
+          hotelId: 3,
+        },
+        {
+          name: '101',
+          capacity: 3,
+          hotelId: 4,
+        },
+        {
+          name: '102',
+          capacity: 2,
+          hotelId: 4,
+        },
+        {
+          name: '103',
+          capacity: 3,
+          hotelId: 4,
+        }
+        
   let activities = await prisma.activity.findMany();
   if (activities.length === 0) {
     await prisma.activity.createMany({
