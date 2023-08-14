@@ -2,6 +2,7 @@ import { AuthenticatedRequest } from "@/middlewares";
 import { Response } from "express";
 import httpStatus from "http-status";
 import bookingService from "@/services/booking-service";
+import { RESERVED_NUMBERS } from "@brazilian-utils/brazilian-utils/dist/utilities/pis";
 
 export async function listBooking(req: AuthenticatedRequest, res: Response) {
   try {
@@ -68,3 +69,14 @@ export async function changeBooking(req: AuthenticatedRequest, res: Response) {
   }
 }
 
+export async function listBookingsForRoom(req: AuthenticatedRequest, res: Response) {
+  const roomId = Number(req.params.roomId);
+  if (!roomId) return res.sendStatus(httpStatus.BAD_REQUEST);
+  try {
+    const bookings = await bookingService.getBookingsForRoom(roomId);
+
+    return res.status(httpStatus.OK).send(bookings);
+  } catch (error) {
+    return res.sendStatus(500);
+  }
+}
