@@ -131,34 +131,37 @@ async function main() {
         {
           name: '101',
           capacity: 3,
-          hotelId: 3,
+          hotelId: 1,
         },
         {
           name: '102',
           capacity: 2,
-          hotelId: 3,
+          hotelId: 1,
         },
         {
           name: '103',
           capacity: 3,
-          hotelId: 3,
+          hotelId: 1,
         },
         {
           name: '101',
           capacity: 3,
-          hotelId: 4,
+          hotelId: 2,
         },
         {
           name: '102',
           capacity: 2,
-          hotelId: 4,
+          hotelId: 2,
         },
         {
           name: '103',
           capacity: 3,
-          hotelId: 4,
+          hotelId: 2,
         }
-        
+      ]
+      });
+  }
+
   let activities = await prisma.activity.findMany();
   if (activities.length === 0) {
     await prisma.activity.createMany({
@@ -232,6 +235,7 @@ async function main() {
     });
   }
 }
+
 
 main()
   .catch((e) => {
