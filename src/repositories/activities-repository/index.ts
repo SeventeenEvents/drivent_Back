@@ -5,6 +5,12 @@ async function getActivities() {
     return prisma.activity.findMany();
 }
 
+async function getDays() {
+    return prisma.activity.groupBy({
+        by: ['day']
+    });
+}
+
 async function reserveActivity(reservation: reservationParams) {
     return prisma.reserve_Activity.create({
         data: {
@@ -36,7 +42,8 @@ const activitiesRepository = {
     getActivities,
     reserveActivity,
     getActivitiesById,
-    updateActivity
+    updateActivity,
+    getDays
 }
 
 export default activitiesRepository;

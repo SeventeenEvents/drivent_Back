@@ -2,12 +2,32 @@ import { cannotReserveError, notFoundError } from "@/errors";
 import activitiesRepository from "../../repositories/activities-repository";
 
 async function getActivities() {
+
+    const date = await activitiesRepository.getDays();
     const activities = await activitiesRepository.getActivities();
 
     if (!activities) {
         throw notFoundError();
     }
-    return activities;
+
+    const activitiesByDay = activities.map(
+        function (a) {
+            const body = {
+                day: a.day,
+                activities: {
+                    id: a.id,
+                    location: a.location,
+                    name: a.name,
+                    startAt: a.startAt,
+                    endAt: a.endAt,
+                    vacancies: a.vacancies,
+                }
+            }
+            return body;
+        }
+    )
+
+    return { date, activitiesByDay };
 }
 
 async function reserveActivity(activityId: number, userId: number) {
