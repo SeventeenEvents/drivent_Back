@@ -1,14 +1,18 @@
 import { prisma } from "@/config";
 
 async function getActivities() {
-  return prisma.activity.findMany();
+  return prisma.activity.findMany({
+    orderBy: [{
+      id: 'asc'
+    }]
+  });
 }
 
 async function getReservedActivities(userId: number) {
   return prisma.reserve_Activity.findMany({ where: { userId }, select: { activityId: true } });
 }
 
-async function reserveActivity(reservation: {activityId: number, userId: number,}) {
+async function reserveActivity(reservation: { activityId: number, userId: number, }) {
   return prisma.reserve_Activity.create({
     data: {
       ...reservation
