@@ -42,7 +42,7 @@ export async function getAddressFromCEP(req: AuthenticatedRequest, res: Response
 }
 
 export async function getEnrollmentByUserId(req: AuthenticatedRequest, res: Response) {
-  const { enrollmentId } = req.params
+  const { enrollmentId } = req.params;
 
   try {
     const enrollment = await enrollmentsService.findUserIdByEnrollmentId(enrollmentId);

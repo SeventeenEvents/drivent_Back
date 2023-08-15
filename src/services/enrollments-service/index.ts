@@ -87,7 +87,6 @@ async function findUserIdByEnrollmentId(enrollmentId: string) {
   return userId;
 }
 
-
 export type CreateOrUpdateEnrollmentWithAddress = CreateEnrollmentParams & {
   address: CreateAddressParams;
 };

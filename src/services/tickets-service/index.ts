@@ -44,7 +44,7 @@ async function createTicket(userId: number, ticketTypeId: number) {
   return ticket;
 }
 
-async function findTickeyById (ticketId: number) {
+async function findTickeyById(ticketId: number) {
   const ticket = await ticketRepository.findTickeyById(ticketId);
 
   if (!ticket) {
@@ -69,7 +69,6 @@ async function getUserTicketType(enrollmentId: string) {
 
   return ticketType;
 }
-
 
 const ticketService = {
   getTicketTypes,

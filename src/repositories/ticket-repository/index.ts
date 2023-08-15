@@ -76,7 +76,7 @@ async function getUserTicketType(userId: number) {
   });
 
   if (!user) {
-    throw new Error('User not found');
+    throw new Error("User not found");
   }
 
   const userEnrollment = user.Enrollment?.[0];
@@ -85,7 +85,6 @@ async function getUserTicketType(userId: number) {
 
   return ticketType;
 }
-
 
 export type CreateTicketParams = Omit<Ticket, "id" | "createdAt" | "updatedAt">
 

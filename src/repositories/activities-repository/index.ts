@@ -48,4 +48,3 @@ const activitiesRepository = {
 };
 
 export default activitiesRepository;
-
