@@ -40,3 +40,16 @@ export async function getAddressFromCEP(req: AuthenticatedRequest, res: Response
     }
   }
 }
+
+export async function getEnrollmentByUserId(req: AuthenticatedRequest, res: Response) {
+  const { enrollmentId } = req.params;
+
+  try {
+    const enrollment = await enrollmentsService.findUserIdByEnrollmentId(enrollmentId);
+
+    return res.status(httpStatus.OK).send(enrollment);
+  }
+  catch (error) {
+    return res.sendStatus(httpStatus.NOT_FOUND);
+  }
+}

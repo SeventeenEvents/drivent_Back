@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import dayjs from "dayjs";
+import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 async function main() {
@@ -49,6 +50,53 @@ async function main() {
     });
   }
 
+  console.log("Evento criado:", event);
+
+  let users = await prisma.user.findMany();
+
+
+  if (users.length > 0) {
+    // Criação dos usuários e tickets
+
+    const user4 = await prisma.user.create({
+      data: {
+        email: "4@gmail.com",
+        password: await bcrypt.hash("password123", 10),
+        Enrollment: {
+          create: {
+            name: "User 4",
+            cpf: "12345678901",
+            birthday: dayjs("1995-01-01").toDate(),
+            phone: "123456789",
+            Address: {
+              create: {
+                cep: "21911430",
+                street: "Rua Magno Martins",
+                city: "Rio de Janeiro",
+                state: "RJ",
+                number: "456",
+                neighborhood: "Freguesia",
+              },
+            },
+            Ticket: {
+              create: {
+                TicketType: {
+                  connect: {
+                    id: 2,
+                  },
+                },
+                status: "RESERVED",
+              },
+            },
+          },
+        },
+      },
+    });
+
+
+
+    console.log("Usuários criados:", user4);
+  }
   console.log({ event });
 
   let hotel = await prisma.hotel.findMany();
@@ -76,7 +124,118 @@ async function main() {
     });
   }
 
+  let rooms = await prisma.room.findMany();
+  if(rooms.length === 0) {
+    await prisma.room.createMany({
+      data: [
+        {
+          name: '101',
+          capacity: 3,
+          hotelId: 1,
+        },
+        {
+          name: '102',
+          capacity: 2,
+          hotelId: 1,
+        },
+        {
+          name: '103',
+          capacity: 3,
+          hotelId: 1,
+        },
+        {
+          name: '101',
+          capacity: 3,
+          hotelId: 2,
+        },
+        {
+          name: '102',
+          capacity: 2,
+          hotelId: 2,
+        },
+        {
+          name: '103',
+          capacity: 3,
+          hotelId: 2,
+        }
+      ]
+      });
+  }
+
+  let activities = await prisma.activity.findMany();
+  if (activities.length === 0) {
+    await prisma.activity.createMany({
+      data: [{
+        day: new Date(2024, 3, 16),
+        location: 'River Island',
+        name: 'How to train your Squirtle',
+        startAt: new Date(2024, 3, 16, 9),
+        duration: 3,
+        endAt: new Date(2024, 3, 16, 12),
+        vacancies: 30,
+        createdAt: dayjs().toDate(),
+        updatedAt: dayjs().toDate()
+      },
+      {
+        day: new Date(2024, 3, 16),
+        location: 'Mountain Top',
+        name: 'How to train your Charmander',
+        startAt: new Date(2024, 3, 16, 9),
+        duration: 3,
+        endAt: new Date(2024, 3, 16, 12),
+        vacancies: 30,
+        createdAt: dayjs().toDate(),
+        updatedAt: dayjs().toDate()
+      },
+      {
+        day: new Date(2024, 3, 16),
+        location: 'Deep Jungle',
+        name: 'How to train your Bulbasaur',
+        startAt: new Date(2024, 3, 16, 9),
+        duration: 3,
+        endAt: new Date(2024, 3, 16, 12),
+        vacancies: 30,
+        createdAt: dayjs().toDate(),
+        updatedAt: dayjs().toDate()
+      },
+      {
+        day: new Date(2024, 3, 17),
+        location: 'River Island',
+        name: 'How to evolve Eeve into Vaporeon',
+        startAt: new Date(2024, 3, 17, 14),
+        duration: 2,
+        endAt: new Date(2024, 3, 17, 16),
+        vacancies: 15,
+        createdAt: dayjs().toDate(),
+        updatedAt: dayjs().toDate()
+      },
+      {
+        day: new Date(2024, 3, 17),
+        location: 'Mountain Top',
+        name: 'How to evolve Eeve into Flareon',
+        startAt: new Date(2024, 3, 17, 14),
+        duration: 2,
+        endAt: new Date(2024, 3, 17, 16),
+        vacancies: 15,
+        createdAt: dayjs().toDate(),
+        updatedAt: dayjs().toDate()
+      },
+      {
+        day: new Date(2024, 3, 17),
+        location: 'Deep Jungle',
+        name: 'How to evolve Eeve into Leafeon',
+        startAt: new Date(2024, 3, 17, 14),
+        duration: 2,
+        endAt: new Date(2024, 3, 17, 16),
+        vacancies: 15,
+        createdAt: dayjs().toDate(),
+        updatedAt: dayjs().toDate()
+      },
+      ]
+    });
+  }
 }
+
 
 main()
   .catch((e) => {
